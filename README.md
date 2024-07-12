@@ -2,20 +2,13 @@ This is a barebones CLI flight computer written in FORTRAN. It has many handy fu
 
 <img width="844" alt="Screenshot 2024-07-11 at 9 57 31 PM" src="https://github.com/user-attachments/assets/b0e2dc62-8c5b-4149-863b-deb2857e02ae">
 
-The features that are working well currently are:
-  A three degree slope calculator
-  A descent initation calculator
-  MPH to KNT Unit conversion
-  A fuel burnrate calculator
-  An ETA and expected fuel burn calculator
-  A distance from point calcualtor
-  A METAR and TAF fetcher using the NWS API
+ Not all features are functioning currently. They are annotated in the applications helptext and will be updated as time goes by.
 
 <img width="850" alt="Screenshot 2024-07-11 at 10 01 55 PM" src="https://github.com/user-attachments/assets/7fd07fec-2092-4b52-80c7-02097853771e">
 
-  I am working on a calcuator that takes a set of coordinates and based on your current coordinates returns a bearing and appromixate distance.
+I am working on a calcuator that takes a set of coordinates and based on your current coordinates returns a bearing and appromixate distance but this is going to be one of the last features I add.
 
-Only dependency besides a FORTRAN compiler is CURL. It is used soley to fetch the weather data from the National Weather Service API.
+Only dependency besides a FORTRAN compiler is CURL. It is used soley to fetch the weather data from the National Weather Service API for the METAR and TAF information.
 
 <img width="841" alt="Screenshot 2024-07-11 at 9 58 21 PM" src="https://github.com/user-attachments/assets/2e6db2b2-c12b-4ca6-94a0-bb16aff3f453">
 
