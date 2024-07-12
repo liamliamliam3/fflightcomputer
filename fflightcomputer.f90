@@ -1,4 +1,4 @@
-program fcalc
+program fflightcomputer
     implicit none
 
     ! FLIGHT CALCULATOR
@@ -35,6 +35,9 @@ program fcalc
         character(len=150) :: output_string
         character(len=50) :: input_string
     
+        ! This function slaps user input onto the end of a predefined string
+        ! Uncomment below for verbose output 
+
         !print *, 'APPENDER - NOTRIM:'//url_string
         !print *, 'APPENDER - NOTRIM:'//input_string
     
@@ -117,9 +120,9 @@ program fcalc
     subroutine METAR
 
         ! Pulls METAR from the NWS API using CURL
-        
+        print *
         print *, 'CURRENT WEATHER CONDITIONS - METAR'
-        print *, 'Type IACO:'
+        write(*,"(A)", ADVANCE='NO') 'Type IACO:'
         read (*,'(A)') input_string
         print *, ' '
     
@@ -136,9 +139,9 @@ program fcalc
     subroutine TAF
 
         ! Pulls TAF from the NWS API using CURL
-        
+        print *
         print *, 'IACO WEATHER CONDITIONS - TAF'
-        print *, 'Type IACO:'
+        write(*,"(A)", ADVANCE='NO') 'Type IACO:'
         read (*,'(A)') input_string
         print *, ' '
     
@@ -153,7 +156,9 @@ program fcalc
     end subroutine TAF
 
     subroutine AIRPORT_INFO
-        
+        !BROKEN 
+        !Unsure of where I ea going with this, will revisit
+        print *
         print *, 'AIRPORT INFORMATION FETCH'
         print *, 'Type IACO:'
         read (*,'(A)') input_string
@@ -176,12 +181,12 @@ program fcalc
             real :: estpos
 
             ! Distance calculator from last known point
-
+            print *
             print *, 'DISTANCE CALCULATOR'
             print *, 'FROM LAST KNOWN POSITION'
-            print *, 'Enter Ground Speed (knts):'
+            write(*,"(A)", ADVANCE='NO') 'Enter Ground Speed (knts):'
             read (*,*) gs
-            print *, 'Enter Elapsed Time (Minutes):'
+            write(*,"(A)", ADVANCE='NO') 'Enter Elapsed Time (Minutes):'
             read (*,*) time
 
             time = time / 60 
@@ -209,8 +214,9 @@ program fcalc
         integer :: vs
 
         ! Required vertical speed to maintain 3 degree descent at certain airspeed
-
-        print *, 'Enter TAS: '
+        print *
+        print *, 'VERTICAL SPEED CALCULATOR'
+        write(*,"(A)", ADVANCE='NO') 'Enter TAS: '
         read(*,*) tas
 
         vs = TAS * 3
@@ -225,14 +231,16 @@ program fcalc
         real :: dist
 
         ! Descent calculator assuming 3 degree glideslope
-
-        print *, 'Enter Starting Altitude:'
+        print *
+        print *, 'DESCENT TIMING'
+        write(*,"(A)", ADVANCE='NO') 'Enter Starting Altitude:'
         read(*,*) start
-        print *, 'Enter Desired Altitude:'
+        write(*,"(A)", ADVANCE='NO') 'Enter Desired Altitude:'
         read(*,*) end
 
         dist = ((start - end) / 1000) * 3
 
+        ! Working on figuring out how to truncate the trailing zeros on all results
         !10 format(F6.1, a)
         !write (*, '(a, 1x, f5.1, a)') 'Descend at', dist, 'NM'
         print *, 'Descent at', dist, 'NM'
@@ -248,13 +256,14 @@ program fcalc
         real :: calc
 
         ! Calculate headwind
-
+        ! Buggy, need to check math
+        print *
         print *, 'HEADWIND CALCULATOR'
-        print *, 'Enter Wind Speed:'
+        write(*,"(A)", ADVANCE='NO') 'Enter Wind Speed:'
         read (*,*) wspeed_l
-        print *, 'Enter Wind Direction (METAR):'
+        write(*,"(A)", ADVANCE='NO') 'Enter Wind Direction (METAR):'
         read (*,*) wheading_metar
-        print *, 'Enter Aircraft Heading:'
+        write(*,"(A)", ADVANCE='NO') 'Enter Aircraft Heading:'
         read (*,*) heading
 
         mhead = wheading_metar - heading
@@ -272,13 +281,14 @@ program fcalc
         real :: calc
 
         ! Calculate crosswind
-
+        ! Buggy, need to check math
+        print *
         print *, 'CROSSWIND CALCULATOR'
-        print *, 'Enter Wind Speed:'
+        write(*,"(A)", ADVANCE='NO') 'Enter Wind Speed:'
         read (*,*) wspeed_l
-        print *, 'Enter Wind Direction (METAR):'
+        write(*,"(A)", ADVANCE='NO') 'Enter Wind Direction (METAR):'
         read (*,*) wheading_metar
-        print *, 'Enter Aircraft Heading:'
+        write(*,"(A)", ADVANCE='NO') 'Enter Aircraft Heading:'
         read (*,*) heading
 
         mhead = wheading_metar - heading
@@ -296,14 +306,15 @@ program fcalc
         real :: fuel_required
 
         ! Calculate time and fuel to destination
-    
-        print *, 'Enter the distance to the destination (NM):'
+        print *
+        print *, 'ETA + REQUIRED FUEL CALCULATOR'
+        write(*,"(A)", ADVANCE='NO') 'Enter the distance to the destination (NM):'
         read(*,*) distance
     
-        print *, 'Enter the average speed (KTS):'
+        write(*,"(A)", ADVANCE='NO') 'Enter the average speed (KTS):'
         read(*,*) speed
     
-        print *, 'Enter the hourly fuel burn rate:'
+        write(*,"(A)", ADVANCE='NO') 'Enter the hourly fuel burn rate:'
         read(*,*) hourly_burn_rate
     
         estimated_time = distance / speed  ! Time in hours
@@ -324,14 +335,15 @@ program fcalc
         real :: hoburn
 
         ! Deduce minute and hourly fuel burnrate
-    
-        print *, 'Enter initial fuel quantity:'
+        print *
+        print *, 'FUEL BURNRATE CALCULATOR'
+        write(*,"(A)", ADVANCE='NO') 'Enter initial fuel quantity:'
         read(*,*) ifuel
     
-        print *, 'Enter check fuel quanitity:'
+        write(*,"(A)", ADVANCE='NO') 'Enter check fuel quanitity:'
         read(*,*) cfuel
     
-        print *, 'Enter time elapsed(minutes):'
+        write(*,"(A)", ADVANCE='NO') 'Enter time elapsed(minutes):'
         read(*,*) time
     
         minburn = (ifuel - cfuel) / time
@@ -347,7 +359,9 @@ program fcalc
         integer :: airspeed
         integer :: knt
 
-        print *, 'Enter Airspeed (MPH):'
+        print *
+        print *, 'MPH > KNT CONVERTER'
+        write(*,"(A)", ADVANCE='NO') 'Enter Airspeed (MPH):'
         read(*,*) airspeed
 
         knt = airspeed / 1.15078
@@ -362,11 +376,13 @@ program fcalc
         integer :: tas
         integer :: f1
 
+        ! BROKEN
         ! Take alititude and airspeed and roughly convert it to TAS
-
-        print *, 'Enter Altitiude:'
+        print *
+        print *, 'ESTIMATED TAS CALCULATOR'
+        write(*,"(A)", ADVANCE='NO') 'Enter Altitiude:'
         read(*,*) alt
-        print *, 'Enter Airspeed:'
+        write(*,"(A)", ADVANCE='NO') 'Enter Airspeed:'
         read(*,*) airspeed
 
         f1 = (alt / 1000) * 0.02 
@@ -424,13 +440,14 @@ program fcalc
         d = earthradius * c 
 
         print *, 'CALCULATIONS'
-        print *, 'Distance (NM):'
+        print *, 'Distance (NM):' 
         print *, 'Bearing (DEG):'
 
         call console
     end subroutine
 
     subroutine clear
+        ! currently depends on assumption user is using a UNIX based OS
         status = system("clear")
         call console
     end subroutine clear
@@ -446,7 +463,7 @@ program fcalc
         print *, '5 - MPH > KNT'
         print *
         print *, '6 - Fuel Burn Calculator'
-        print *, '7 - Time to + Fuel Required'
+        print *, '7 - ETA + Fuel Required'
         print *, '8 - Dead Reckoning'
         print *, '9 - INCOMPLETE - Coordinate Direction Finder'
         print *
@@ -459,12 +476,16 @@ program fcalc
         print *
         print *, '77 - Helptext'
         print *, '88 - Clear Screen'
+        print *, '(Enter any undefined number to quit)'
 
         call console
     end subroutine menu
 
     subroutine console
-        print *, '>> '
+        print *
+        
+        write(*,"(A)", ADVANCE='NO') ">> "
+        !print *, '>> '
         read (*,*) selection
 
         if (selection == 1) then
@@ -503,4 +524,4 @@ program fcalc
 
     end subroutine console
 
-end program fcalc
+end program fflightcomputer
